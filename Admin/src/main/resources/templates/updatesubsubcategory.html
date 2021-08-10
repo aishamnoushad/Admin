@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html xmlns="http://www.abcgroupuae.com"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+   <head >
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Dashboard - ABC   Admin</title>
+     
+       
+        <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
+        <link href="css/styles.css" th:href="@{/css/styles.css}" rel="stylesheet" />
+       <script
+  src="https://code.jquery.com/jquery-3.6.0.js"
+  integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+  crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js" crossorigin="anonymous"></script>
+        
+   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    </head>
+    <body class="sb-nav-fixed">
+    
+    <div th:replace="fragments/header :: header">...</div>
+        
+        <div id="layoutSidenav">
+            <div th:replace="fragments/sidenavbar :: sidenavbar">...</div>
+            <div id="layoutSidenav_content">
+                <main>
+                    <div class="container-fluid px-4">
+                        <h1 class="mt-4">New Sub of Sub Category Addition</h1>
+                        <ol class="breadcrumb mb-4">
+                            <li class="breadcrumb-item active"></li>
+                        </ol>
+                        
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <i class="fas fa-table me-1"></i>
+                                Category Addition
+                            </div>
+                            <div class="card-body">
+                            	<form action="#" th:action="@{/subsubcategory/add}" th:object="${selSubSubCategory}" method="post">
+                            	<input type="hidden" th:field="*{FromValue}" th:value="Update"/>
+                            	<input type="hidden" th:field="*{created_at}" th:value="${selSubSubCategory.created_at}"/>
+							    	<p>Category Id: <select id="category1" th:field="*{SubSubCategoryIdentity.Category_ID}">
+							    	<option value="">---Select---</option>
+										<option th:each="category : ${AllCategories}" 
+												th:value="${category.Category_ID}" 
+												th:text="${category.Category_Name}" 
+												th:selected="${category.Category_ID == selSubSubCategory.SubSubCategoryIdentity.Category_ID}">
+										</option>
+										</select>
+									</p>
+									<p>Sub Category Id: <select id="subcategory" th:field="*{SubSubCategoryIdentity.Sub_Category_ID}">
+										<option value="">---Select---</option>
+										<option th:each="scategory : ${subcategories}"
+											    th:value="${scategory.subCategoryIdentity.Sub_Category_ID}" 
+											    th:text="${scategory.Sub_Category_Name}"
+											    th:selected="${scategory.subCategoryIdentity.Sub_Category_ID == selSubSubCategory.SubSubCategoryIdentity.Sub_Category_ID}">
+										</option>
+										</select>
+									</p>
+							    	<p>Sub of Subcategory Id: <input type="text" th:field="*{SubSubCategoryIdentity.Sub_Sub_Category_ID}" th:value="${selSubSubCategory.SubSubCategoryIdentity.Sub_Sub_Category_ID}"/></p>
+							    	<p>Sub of Sub Category Name: <input type="text" th:field="*{Sub_Sub_Category_Name}" th:value="${selSubSubCategory.Sub_Sub_Category_Name}"/></p>
+							    	<p>Description: <input type="text" th:field="*{Description}" th:value="${selSubSubCategory.Description}"/></p>
+							        <p>Status : <select th:field="*{Status}">
+												    <option th:value="Active" th:text="Active" th:selected="${selSubSubCategory.Status == 'Active'}"></option>
+												    <option th:value="Inactive" th:text="Inactive" th:selected="${selSubSubCategory.Status == 'Inactive'}"></option>
+												</select>
+									</p>
+							        <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
+							    </form>
+                               
+                            </div>
+                        </div>
+                    </div>
+                </main>
+              <div th:replace="fragments/footer :: footer">...</div>
+            </div>
+        </div>
+      
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+        <script src="js/scripts.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+        <script src="assets/demo/chart-area-demo.js"></script>
+        <script src="assets/demo/chart-bar-demo.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
+        <script src="js/datatables-simple-demo.js"></script>
+         <script>
+       jQuery(document).ready(function () {
+	
+           $("#category1").on('change', function () {
+                var selectedItem = $(this).val();
+                var selSubCategories = $("#subcategory"); // will be update after success ajax call
+               // var _token= $('meta[name="csrf-token"]').attr('content');
+               // alert(selectedItem + "csrf token"+_token);
+                $.ajax({     // get states/towns from db from controller
+                    cache: false,
+                    type: "GET",
+                   // url: "@(Url.RouteUrl('/getSubCategories'))", 
+                   url: "/getSubCategories", 
+                    data: { "category_id": selectedItem },
+                    success: function (data) { 
+                        selSubCategories.html('');
+                         var html ='';
+                        console.log(data);
+                         var len = data.length;
+                for ( var i = 0; i < len; i++) {
+                    html += '<option value="' + data[i].subCategoryIdentity.Sub_Category_ID + '">'
+                            + data[i].Sub_Category_Name + '</option>';
+                }
+                html += '</option>';
+               $("#subcategory").html(html);
+                     
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        alert('Failed to retrieve states.');
+                        
+                    }
+                });
+            });
+        });
+    </script>
+       
+    </body>
+</html>

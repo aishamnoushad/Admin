@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html xmlns="http://www.abcgroupuae.com" 
+xmlns:th="http://www.thymeleaf.org"
+xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+	<meta name="description" content="" />
+	<meta name="author" content="" />
+	<title>Dashboard - ABC Admin</title>
+
+
+	<link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
+	<link href="css/styles.css" th:href="@{/css/styles.css}" rel="stylesheet" />
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"
+		crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery-3.6.0.js"
+		integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body class="sb-nav-fixed">
+
+	<div th:replace="fragments/header :: header">...</div>
+
+	<div id="layoutSidenav">
+		<div th:replace="fragments/sidenavbar :: sidenavbar">...</div>
+		<div id="layoutSidenav_content">
+			<main>
+				<div class="container-fluid px-4">
+					<h1 class="mt-4">Edit Product Details</h1>
+					<ol class="breadcrumb mb-4">
+						<li class="breadcrumb-item active"></li>
+					</ol>
+
+					<div class="card mb-4">
+						<div class="card-header">
+							<i class="fas fa-table me-1"></i>
+							Sub Sub Categories
+						</div>
+						<div class="card-body">
+							<form action="#" th:action="@{/products/add}" th:object="${ProductItem}" method="post" enctype="multipart/form-data">
+							<input type="hidden" th:field="*{FromValue}"  th:value="Update"/>
+							<input type="hidden" th:field="*{Created_at}" th:value="${ProductItem?.Created_at}"/>
+								<fieldset>
+									<legend>General Product Details</legend>
+									<table>
+										<tr>
+											<td class="ml-3  col-4">Product Id</td>
+											<td class="ml-3  col-4"><input type="text" th:field="*{Product_id}" th:value="${ProductItem?.Product_id}" /></td>
+											<td class="ml-3  col-4">Product Name</td>
+											<td class="ml-3  col-4"><input type="text" th:field="*{Product_name}" th:value="${ProductItem?.Product_name}"/>
+											</td>
+
+										</tr>
+										<tr>
+											<td class="ml-3  col-4">Barcode</td>
+											<td class="ml-3  col-4"><input type="number" th:field="*{Barcode}" th:value="${ProductItem?.Barcode}" /></td>
+											<td class="ml-3  col-4">Family code</td>
+											<td class="ml-3  col-4"><input type="text" th:field="*{FamilyCode}" th:value="${ProductItem?.FamilyCode}" /></td>
+										</tr>
+										<tr>
+											<td class="ml-3  col-4">Category</td>
+											<td class="ml-3  col-4">
+												<select th:field="*{Category_ID}" id="category">
+													<option value="">---Select---</option>
+													<option th:each="category : ${AllCategories}"
+														th:value="${category.Category_ID}"
+														th:text="${category.Category_Name}">
+													</option>
+												</select>
+											</td>
+											<td class="ml-3  col-4">Sub Category</td>
+											<td class="ml-3  col-4"><select id="subcategory"
+													th:field="*{Sub_Category_ID}">
+													<option value="">---Select---</option>
+													<option th:each="subcategory : ${subcategories}"
+														th:value="${subcategory?.SubCategoryIdentity?.Sub_Category_ID}"
+														th:text="${subcategory?.Sub_Category_Name}">
+													</option>
+												</select></td>
+
+										</tr>
+										<tr>
+											<td class="ml-3  col-4">Sub Sub Category</td>
+											<td class="ml-3  col-4"><select id="subsubcategory"
+													th:field="*{Sub_Sub_Category_ID}">
+													<option value="">---Select---</option>
+													<option th:each="subsubcategory : ${subsubcategories}"
+														th:value="${subsubcategory?.SubSubCategoryIdentity?.Sub_Sub_Category_ID}"
+														th:text="${subsubcategory?.Sub_Sub_Category_Name}">
+													</option>
+												</select></td>
+											<td class="ml-3  col-4">Brand</td>
+											<td class="ml-3  col-4"><input type="text" th:field="*{Brand}" th:value="${ProductItem?.Brand}" /></td>
+
+										</tr>
+										<tr>
+											<td class="ml-3  col-4">Description</td>
+											<td class="ml-3  col-4"><input type="text" th:field="*{Description}" th:value="${ProductItem?.Description}" /></td>
+											<td class="ml-3  col-4">Long Description</td>
+											<td class="ml-3  col-4"><textarea th:field="*{Long_description}" th:value="${ProductItem?.Long_description}" /></td>
+
+										</tr>
+
+									</table>
+
+								</fieldset>
+								<fieldset>
+									<legend>product Specifications</legend>
+									<table>
+										<tr>
+											<td class="ml-3  col-4">Finish</td>
+											<td class="ml-3  col-4"><input type="text" th:field="*{Finish}" th:value="${ProductItem?.Finish}" /></td>
+											<td class="ml-3  col-4">Materials</td>
+											<td class="ml-3  col-4"><input type="text" th:field="*{Material}" th:value="${ProductItem?.Material}" />
+											</td>
+
+										</tr>
+										<tr>
+											<td class="ml-3  col-4">Shape</td>
+											<td class="ml-3  col-4"><input type="text" th:field="*{Shape}" th:value="${ProductItem?.Shape}" /></td>
+											<td class="ml-3  col-4">Colour</td>
+											<td class="ml-3  col-4"><input type="text" th:field="*{Colour}" th:value="${ProductItem?.Colour}" /></td>
+										</tr>
+										<tr>
+											<td class="ml-3  col-4">Size</td>
+											<td class="ml-3  col-4"><input type="text" th:field="*{Size}" th:value="${ProductItem?.Size}" /></td>
+											<td class="ml-3  col-4">Dimension</td>
+											<td class="ml-3  col-4"><input type="text" th:field="*{Dimension}" th:value="${ProductItem?.Dimension}" /></td>
+										</tr>
+										<tr>
+											<td class="ml-3  col-4">Outlet Diameter</td>
+											<td class="ml-3  col-4"><input type="number" th:field="*{Outlet_diameter}" th:value="${ProductItem?.Outlet_diameter}" /></td>
+											<td class="ml-3  col-4">Thickness</td>
+											<td class="ml-3  col-4"><input type="text" th:field="*{Thickness}" th:value="${ProductItem?.Thickness}" /></td>
+										</tr>
+										<tr>
+											<td class="ml-3  col-4">Available Colours</td>
+											<td class="ml-3  col-4"><input type="text" th:field="*{Available_colours}" th:value="${ProductItem?.Available_colours}" /></td>
+											<td class="ml-3  col-4">Available Sizes</td>
+											<td class="ml-3  col-4"><input type="text" th:field="*{Available_sizes}" th:value="${ProductItem?.Available_sizes}" /></td>
+										</tr>
+										<tr>
+											<td class="ml-3  col-4">Available Variance</td>
+											<td class="ml-3  col-4"><input type="text" th:field="*{Available_variance}" th:value="${ProductItem?.Available_variance}" /></td>
+											<td class="ml-3  col-4">Application</td>
+											<td class="ml-3  col-4"><input type="text" th:field="*{Application}" th:value="${ProductItem?.Application}" /></td>
+										</tr>
+										<tr>
+											<td class="ml-3  col-4">Type</td>
+											<td class="ml-3  col-4"><input type="text" th:field="*{Type}" th:value="${ProductItem?.Type}" /></td>
+										</tr>
+										
+
+									</table>
+
+								</fieldset>
+								<fieldset>
+									<legend>Sale measures</legend>
+									<table>
+										<tr>
+											<td class="ml-3  col-4">Unit Price</td>
+											<td class="ml-3  col-4"><input type="number" th:field="*{Unit_price}" th:value="${ProductItem?.Unit_price}" /></td>
+											<td class="ml-3  col-4">Unit of Measurement</td>
+											<td class="ml-3  col-4"><input type="text" th:field="*{Unit_of_measurement}" th:value="${ProductItem?.Unit_of_measurement}" /></td>
+										</tr>
+										<tr>
+											<td class="ml-3  col-4">Unit in Stock</td>
+											<td class="ml-3  col-4"><input type="number" th:field="*{Unit_in_stock}" th:value="${ProductItem?.Unit_in_stock}" /></td>
+										</tr>
+
+									</table>
+
+								</fieldset>
+								
+								<fieldset>
+									<legend>Image uploading</legend>
+										<table id="uploadtable">
+										<tr>
+											<td class="ml-3  col-4">Main Image</td>
+											<td class="ml-3  col-4"><input type="file" name="mainproductimage" accept="image/png, image/jpeg,image/jpg"/></td>
+											<td class="ml-3  col-4">Technical Sheet</td>
+											<td class="ml-3  col-4"><input type="file" name="technicaldiagram" accept="image/png, image/jpeg, image/jpg"/></td>
+										</tr>
+										<tr>
+										
+											<td class="ml-3  col-4">No:of thumpnail inages</td>
+											<td class="ml-3  col-4"><select id="no_of_thumpnails" name="no_of_thumpnails" >
+													<option value="">---select---</option>
+													<option value="1">1</option>
+													<option value="2">2</option>
+													<option value="3">3</option>
+													<option value="4">4</option>
+													<option value="5">5</option>
+													<option value="6">6</option>
+												</select></td> 
+										</tr>
+
+									</table>
+								</fieldset>
+								 <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
+							</form>
+						</div>
+					</div>
+				</div>
+			</main>
+			<div th:replace="fragments/footer :: footer">...</div>
+		</div>
+	</div>
+
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+		crossorigin="anonymous"></script>
+	<script src="js/scripts.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+	<script src="assets/demo/chart-area-demo.js"></script>
+	<script src="assets/demo/chart-bar-demo.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
+	<script src="js/datatables-simple-demo.js"></script>
+	<script>
+		jQuery(document).ready(function () {
+			
+			$("#no_of_thumpnails").on('change', function () {
+				var thumpnailCount = $("#no_of_thumpnails").val();
+				alert(thumpnailCount);
+				if ($('tr.thumpnail').length) {
+					$('tr.thumpnail').remove();
+					}
+				var html='';
+				for(var i=1;i<=thumpnailCount;i++){
+					html +='<tr class="thumpnail"><td class="ml-3  col-4">Thumpnail Image'+i+'</td><td class="ml-3  col-4"><input type="file" name="productthumpnail'+i+'" accept="image/png, image/jpeg,image/jpg"/></td></tr>';
+				}
+				$("#uploadtable").append(html);
+				html.appendTo("#uploadtable");
+				
+			});
+
+
+			$("#category").on('change', function () {
+				var selectedItem = $(this).val();
+				var selSubCategories = $("#subcategory"); // will be update after success ajax call
+				// var _token= $('meta[name="csrf-token"]').attr('content');
+				// alert(selectedItem + "csrf token"+_token);
+				$.ajax({     // get states/towns from db from controller
+					cache: false,
+					type: "GET",
+					// url: "@(Url.RouteUrl('/getSubCategories'))", 
+					url: "/getSubCategories",
+					data: {"category_id": selectedItem},
+					success: function (data) {
+						selSubCategories.html('');
+						var html = '';
+						console.log(data);
+						var len = data.length;
+						for (var i = 0; i < len; i++) {
+							html += '<option value="' + data[i].subCategoryIdentity.Sub_Category_ID + '">'
+								+ data[i].Sub_Category_Name + '</option>';
+						}
+						html += '</option>';
+						$("#subcategory").html(html);
+						if (data.length == 0) {
+							html += '<option value="">---Select---</option>';
+							$("#subsubcategory").html(html);
+							$("#subcategory").html(html);
+							$("#subsubcategory").prop('disabled', 'disabled');
+							$("#subcategory").prop('disabled', 'disabled');
+						} else {
+							$("#subcategory").removeAttr("disabled");
+							$("#subsubcategory").removeAttr("disabled");
+						}
+
+					},
+					error: function (xhr, ajaxOptions, thrownError) {
+						alert('Failed to retrieve states.');
+
+					}
+				});
+			});
+
+			$("#subcategory").on('change', function () {
+				var selectedItem = $("#category").val();
+				var selectedSubItem = $(this).val();
+				var selSubCategories = $("#subsubcategory"); // will be update after success ajax call
+				// var _token= $('meta[name="csrf-token"]').attr('content');
+				// alert(selectedItem + "csrf token"+_token);
+				$.ajax({     // get states/towns from db from controller
+					cache: false,
+					type: "GET",
+					// url: "@(Url.RouteUrl('/getSubCategories'))", 
+					url: "/getSubSubCategories",
+					data: {"category_id": selectedItem, "sub_category_id": selectedSubItem},
+					success: function (data) {
+						selSubCategories.html('');
+						var html = '';
+						console.log(data);
+						var len = data.length;
+						for (var i = 0; i < len; i++) {
+							html += '<option value="' + data[i].subSubCategoryIdentity.sub_Sub_Category_ID + '">'
+								+ data[i].sub_Sub_Category_Name + '</option>';
+						}
+						html += '</option>';
+						$("#subsubcategory").html(html);
+						if (data.length == 0) {
+							html += '<option value="">---Select---</option>';
+							$("#subsubcategory").html(html);
+							$("#subsubcategory").prop('disabled', 'disabled');
+						} else {
+							$("#subsubcategory").removeAttr("disabled");
+						}
+
+					},
+					error: function (xhr, ajaxOptions, thrownError) {
+						alert('Failed to retrieve states.');
+
+					}
+				});
+			});
+		});
+	</script>
+</body>
+
+</html>
