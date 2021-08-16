@@ -61,7 +61,8 @@ public class User implements Serializable {
 	 @Column(name = "reset_password_token")
 	    private String resetPasswordToken;
 	
-	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+//	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	 @ManyToMany
 	    @JoinTable(
 	            name = "users_roles",
 	            joinColumns = @JoinColumn(name = "user_id"),

@@ -32,12 +32,11 @@ public class UserManagementController {
 	@Modifying
 	public String postdeleteUser(@PathVariable("user_id") int user_id) {
 		UserService.deleteUser(user_id);
-		userRoleService.deleteAllUserRolesOfGivenId(user_id);
+//		userRoleService.deleteAllUserRolesOfGivenId(user_id);
 		return "redirect:/user_request";
 	}
 	
 	@GetMapping("/user_request/approve/{user_id}")
-	
 	public String ApproveUser(@PathVariable("user_id") int user_id, Model model) {
 		try {
 			User user = new User();
@@ -62,7 +61,7 @@ public class UserManagementController {
 	@Modifying
 	public String postdeleteAdminUser(@PathVariable("user_id") int user_id) {
 		UserService.deleteUser(user_id);
-		userRoleService.deleteAllUserRolesOfGivenId(user_id);
+//		userRoleService.deleteAllUserRolesOfGivenId(user_id);
 		return "redirect:/users/admin";
 	}
 	

@@ -34,6 +34,8 @@ public class SubSubCategoryService {
 			newSubCategory.setUpdated_at(LocalDateTime.now());
 		}else {
 			newSubCategory.setUpdated_at(LocalDateTime.now());
+			if(!subSubCategoryRepository.findById(newSubCategory.getSubSubCategoryIdentity()).isPresent());
+			   newSubCategory.setCreated_at(LocalDateTime.now());
 		}
 		return subSubCategoryRepository.saveAndFlush(newSubCategory);
 		

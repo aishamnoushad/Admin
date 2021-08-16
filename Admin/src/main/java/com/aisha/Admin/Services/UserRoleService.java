@@ -17,7 +17,7 @@ public class UserRoleService {
 	}
 	
 	
-	public int deleteAllUserRolesOfGivenId(int user_id) {
-		return user_RolesRepo.deleteAllUserRolesOfGivenId(user_id);
-	}
+//	public int deleteAllUserRolesOfGivenId(int user_id) {
+//		return user_RolesRepo.deleteAllUserRolesOfGivenId(user_id);
+//	}
 }

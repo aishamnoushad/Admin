@@ -16,9 +16,9 @@ public interface UserRolesRepository extends JpaRepository<User_Roles, Integer>{
 	@Modifying
 	@Query(value = "DELETE FROM users_roles e WHERE e.user_id = :user_id and role_id=3",nativeQuery = true)
 	int deleteRequestorRoleOnceApproved(@Param("user_id") int user_id);
-	@Transactional
-	@Modifying
-	@Query(value = "DELETE FROM users_roles e WHERE e.user_id = :user_id ",nativeQuery = true)
-	int deleteAllUserRolesOfGivenId(@Param("user_id") int user_id);
+//	@Transactional
+//	@Modifying
+//	@Query(value = "DELETE FROM users_roles e WHERE e.user_id = :user_id ",nativeQuery = true)
+//	int deleteAllUserRolesOfGivenId(@Param("user_id") int user_id);
 
 }

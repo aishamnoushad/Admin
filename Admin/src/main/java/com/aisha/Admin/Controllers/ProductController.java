@@ -72,8 +72,7 @@ public class ProductController {
 		try {
 			
 			if (categoryService.findByCategoryId(newProduct.getCategory_ID()).isPresent())
-				newProduct.setCategory(
-						categoryService.findByCategoryId(newProduct.getCategory_ID()).get().getCategory_Name());
+				newProduct.setCategory(categoryService.findByCategoryId(newProduct.getCategory_ID()).get().getCategory_Name());
 
 			String uploadDir = "product-images/" + newProduct.getProduct_id();
 			if (multipartFile != null) {
