@@ -5,12 +5,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 
 import com.aisha.Admin.Handlers.AdminAuthenticationSuccessHandler;
@@ -24,13 +26,27 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	UserDetailsService userDetailService;
 	@Autowired
 	BCryptPasswordEncoder bCryptPasswordEncoder;
-	@Autowired
-	 AuthenticationFailureHandler  MyAuthenticationFailureHandler;
-	@Autowired
-	AdminAuthenticationSuccessHandler adminAuthenticationSuccessHandler;
+//	@Autowired
+//	 AuthenticationFailureHandler  MyAuthenticationFailureHandler;
+//	@Autowired
+//	AdminAuthenticationSuccessHandler adminAuthenticationSuccessHandler;
+	
+//	  @Bean
+//	    public DaoAuthenticationProvider authenticationProvider() {
+//	        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+//	        authProvider.setUserDetailsService(userDetailService);
+//	        authProvider.setPasswordEncoder(passwordEncoder());
+//	        return authProvider;
+//	    }
+//	  
+//	  @Bean
+//	    public PasswordEncoder passwordEncoder() {
+//	        return new BCryptPasswordEncoder();
+//	    }
+	
     @Override
     protected void configure(AuthenticationManagerBuilder auth) {
-//        auth.authenticationProvider(authenticationProvider());
+      //  auth.authenticationProvider(authenticationProvider());
     	try {
 			auth.userDetailsService(userDetailService).passwordEncoder(bCryptPasswordEncoder);
 			
@@ -63,12 +79,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
           .anyRequest().authenticated()
           .and()
           .formLogin().loginPage("/login").permitAll()
+          .failureUrl("/login?error")
+//          .successHandler(loginSuccessHandler())
           .and()
           .logout().permitAll()
           .and()
           .exceptionHandling().accessDeniedPage("/unauthorized").and().csrf().disable();
 //          ;
-		// TODO Auto-generated method stub
+		//  
 //		http
 //        .authorizeRequests().antMatchers("/admin").hasAnyRole("ADMIN", "ADMIN_MANAGER")
 //        .and()
@@ -91,5 +109,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 //        .and()
 //        .csrf().disable();
 		
+	}
+	@Bean
+	public AdminAuthenticationSuccessHandler loginSuccessHandler() {
+	    return new AdminAuthenticationSuccessHandler();
 	}
 }

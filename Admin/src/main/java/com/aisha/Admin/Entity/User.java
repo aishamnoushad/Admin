@@ -19,11 +19,16 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+
+import org.hibernate.validator.constraints.UniqueElements;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 @JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
 @JsonIdentityReference(alwaysAsId=true)
 @Entity
@@ -43,8 +48,15 @@ public class User implements Serializable {
 	@Column(name = "status")
 	private int status;
 	private String name;
+	
+	@UniqueElements
+	@NotBlank
+	@NotNull
 	private String email;
+	
 	private Date email_verified_at;
+	@NotBlank
+	@NotNull
 	private String password;
 	@Transient
 	private int role;
