@@ -30,7 +30,7 @@ public class UserService {
 	@Transactional
 	public User AddUserRequest(User user) {
 		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-	    String encodedPassword = passwordEncoder.encode(user.getPassword());
+	    String encodedPassword = passwordEncoder.encode(user.getInputpassword());
 	    user.setPassword(encodedPassword);
 	    user.setStatus(5);
 	    user.setRole(3);
@@ -89,5 +89,9 @@ public class UserService {
     }
     public List<User> gettingAllApprovedAdmins(){
     	return userRepository.findAllBystatus(2);
+    }
+    
+    public User FindByEmail(String email) {
+    	return userRepository.findByEmail(email);
     }
 }

@@ -1,20 +1,26 @@
 package com.aisha.Admin.Entity;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name="categories")
 public class Categories {
 	@Id
+	@NotNull(message = " is required")
+	@NotBlank(message = " is required and should not be blank")
 	private String Category_ID;
+	@NotNull(message = " is required")
 	private String Category_Name;
+	@NotNull(message = " is required")
 	private String Description;
+	@NotNull(message = " is required")
 	private String Status;
 	private LocalDateTime updated_at;
 	private LocalDateTime created_at;

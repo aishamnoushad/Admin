@@ -6,10 +6,8 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -18,19 +16,24 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
-
-import org.hibernate.validator.constraints.UniqueElements;
+import org.hibernate.annotations.ColumnDefault;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.aisha.Admin.GenericClasses.FieldMatch;
+import com.aisha.Admin.GenericClasses.ValidEmail;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 @JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
 @JsonIdentityReference(alwaysAsId=true)
+@FieldMatch.List({
+    @FieldMatch(first = "inputpassword", second = "matchingPassword", message = "The password fields must match")
+})
 @Entity
 @Table(name="users")
 public class User implements Serializable {
@@ -39,7 +42,6 @@ public class User implements Serializable {
 	@Autowired(required=false)
 	public StatusUpdates statusdescription;
 	public User() {
-
 	}
 	@Id
 	@Column(name = "user_id")
@@ -47,22 +49,40 @@ public class User implements Serializable {
 	private int user_id;
 	@Column(name = "status")
 	private int status;
+	@NotNull(message = " is required")
+	@Size(min = 1, message = " is required")
 	private String name;
 	
-	@UniqueElements
 	@NotBlank
-	@NotNull
+	@ValidEmail
+	@NotNull(message = " is required")
+    @Size(min = 1, message = " is required")
 	private String email;
 	
 	private Date email_verified_at;
-	@NotBlank
-	@NotNull
+	
+	
+	@NotNull(message = " is required")
+    @Size(min = 8, message = " should contain minimum 8 characters")
+	@ColumnDefault("password")
+	@Transient
+	private String inputpassword;
+	
+	
 	private String password;
+	  
+	@Transient
+	@NotNull(message = " is required")
+	@Size(min = 8, message = " should contain minimum 8 characters")
+	private String matchingPassword;
+	
 	@Transient
 	private int role;
 	@Transient
 	private String roleName;
 	private String remember_token;
+	@NotNull(message = " is required")
+    @Size(min = 10 , message = " phone number must be in the format 971550000000")
 	private String mobileNumber;
 	private String profile_photo_path;
 	private LocalDateTime created_at;
@@ -100,6 +120,22 @@ public class User implements Serializable {
 		this.isApproved=isApproved;
 	}
 	
+	public String getInputpassword() {
+		return inputpassword;
+	}
+
+	public void setInputpassword(String inputpassword) {
+		this.inputpassword = inputpassword;
+	}
+
+	public String getMatchingPassword() {
+		return matchingPassword;
+	}
+
+	public void setMatchingPassword(String matchingPassword) {
+		this.matchingPassword = matchingPassword;
+	}
+
 	public LocalDateTime getApproved_date() {
 		return approved_date;
 	}

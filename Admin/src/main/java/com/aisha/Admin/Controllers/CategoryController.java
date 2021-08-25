@@ -1,5 +1,7 @@
 package com.aisha.Admin.Controllers;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -38,7 +40,7 @@ public class CategoryController {
 		return "categoryadd";
 	}
 	@PostMapping("/category/add")
-	public String postSaveCategory(@ModelAttribute Categories newCategory) {
+	public String postSaveCategory( @Valid @ModelAttribute Categories newCategory) {
 		categoryService.saveCategory(newCategory);
 		return "redirect:/category";
 	}
