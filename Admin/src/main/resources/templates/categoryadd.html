@@ -2,7 +2,7 @@
 <html xmlns="http://www.abcgroupuae.com"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
-   <head >
+   <head>
         <meta charset="utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -14,11 +14,10 @@
         <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
         <link href="css/styles.css" th:href="@{/css/styles.css}" rel="stylesheet" />
         <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js" crossorigin="anonymous"></script>
-        
-   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    </head>
-    <body class="sb-nav-fixed">
+   </head>
+   <body class="sb-nav-fixed">
     
     <div th:replace="fragments/header :: header">...</div>
         
@@ -43,13 +42,33 @@
 							    <form action="#" th:action="@{/category/add}" th:object="${categories}" method="post">
 							    <input type="hidden" th:field="*{FromValue}" th:value="Add"/>
 							    	<p>Category Id: <input type="text" th:field="*{Category_ID}" /></p>
+							    	<div th:if="${#fields.hasErrors('Category_ID')}">
+									        <ul>
+									            <li th:each="err : ${#fields.errors('Category_ID')}" th:text="'Category ID ' + ${err}" />
+									        </ul>
+									 </div>
 							    	<p>Category Name: <input type="text" th:field="*{Category_Name}" /></p>
+							    	<div th:if="${#fields.hasErrors('Category_Name')}">
+									        <ul>
+									            <li th:each="err : ${#fields.errors('Category_Name')}" th:text="'Category Name ' + ${err}" />
+									        </ul>
+									 </div>
 							    	<p>Description: <input type="text" th:field="*{Description}" /></p>
+							    	<div th:if="${#fields.hasErrors('Description')}">
+									        <ul>
+									            <li th:each="err : ${#fields.errors('Description')}" th:text="'Description ' + ${err}" />
+									        </ul>
+									 </div>
 							        <p>Status : <select th:field="*{Status}">
-												    <option th:value="Active" th:text="Active"></option>
+							        				<option th:value="Active" th:text="Active"></option>
 												    <option th:value="Inactive" th:text="Inactive"></option>
 												</select>
 									</p>
+									<div th:if="${#fields.hasErrors('Status')}">
+									        <ul>
+									            <li th:each="err : ${#fields.errors('Status')}" th:text="'Status ' + ${err}" />
+									        </ul>
+									 </div>
 							        <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
 							    </form>
                                

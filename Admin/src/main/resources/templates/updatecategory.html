@@ -46,13 +46,33 @@
 							    	<p>Category Id: <input type="text" th:field="*{Category_ID}" th:value="${selCategory.Category_ID}" />
 								    	
 										</p>
+									 <div th:if="${#fields.hasErrors('Category_ID')}">
+									        <ul>
+									            <li th:each="err : ${#fields.errors('Category_ID')}" th:text="'Category ID ' + ${err}" />
+									        </ul>
+									 </div>
 							    	<p>Category Name: <input type="text" th:field="*{Category_Name}" th:value="${selCategory.Category_Name}" /></p>
+							    	<div th:if="${#fields.hasErrors('Category_Name')}">
+									        <ul>
+									            <li th:each="err : ${#fields.errors('Category_Name')}" th:text="'Category Name ' + ${err}" />
+									        </ul>
+									 </div>
 							    	<p>Description: <input type="text" th:field="*{Description}" th:value="${selCategory.Description}"/></p>
+							    	<div th:if="${#fields.hasErrors('Description')}">
+									        <ul>
+									            <li th:each="err : ${#fields.errors('Description')}" th:text="'Description ' + ${err}" />
+									        </ul>
+									</div>
 							        <p>Status : <select th:field="*{Status}">
 												    <option th:value="Active" th:text="Active" th:selected="${selCategory.Status == 'Active'}"></option>
 												    <option th:value="Inactive" th:text="Inactive" th:selected="${selCategory.Status == 'Inactive'}"></option>
 												</select>
 									</p>
+									<div th:if="${#fields.hasErrors('Status')}">
+									        <ul>
+									            <li th:each="err : ${#fields.errors('Status')}" th:text="'Status ' + ${err}" />
+									        </ul>
+									</div>
 							        <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
 							    </form>
                                

@@ -2,9 +2,12 @@ package com.aisha.Admin.Controllers;
 
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +23,9 @@ import com.aisha.Admin.Services.SubSubCategoryService;
 
 @Controller
 public class CategoryController {
+	
+	private static final Logger log = LoggerFactory.getLogger(CategoryController.class);
+	
 	@Autowired
 	private CategoryService categoryService;
 	
@@ -40,8 +46,15 @@ public class CategoryController {
 		return "categoryadd";
 	}
 	@PostMapping("/category/add")
-	public String postSaveCategory( @Valid @ModelAttribute Categories newCategory) {
+	public String postSaveCategory( @Valid @ModelAttribute Categories newCategory, BindingResult theBindingResult, Model model) {
+		String categoryId = newCategory.getCategory_ID();
+		log.info("saving new category: " + categoryId);
+		if (theBindingResult.hasErrors()) {
+            return "categoryadd";
+        }
+		log.info("After error checking" + theBindingResult);
 		categoryService.saveCategory(newCategory);
+		log.info("Successfully created Category: " + categoryId);
 		return "redirect:/category";
 	}
 	
@@ -54,7 +67,7 @@ public class CategoryController {
 	@GetMapping("/category/update/{category_id}")
 	public String updateViewCategory(@PathVariable("category_id") String CategoryId, Model model) {
 		try {
-//			if(categoryService.findByCategoryId(CategoryId).isPresent())
+			//if(categoryService.findByCategoryId(CategoryId).isPresent())
 				model.addAttribute("selCategory", categoryService.findByCategoryId(CategoryId).get());
 				
 			
